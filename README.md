@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Collaborative Code Editor
 
-## Getting Started
+<div align="left">
+  <img src="https://img.shields.io/badge/AWS_AppSync-GraphQL_API-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white" alt="AWS AppSync"/>
+  <img src="https://img.shields.io/badge/Amazon_Cognito-Auth-FF9900?style=for-the-badge&logo=amazoncognito&logoColor=white" alt="Amazon Cognito"/>
+  <img src="https://img.shields.io/badge/Amazon_DynamoDB-Database-4053D6?style=for-the-badge&logo=amazondynamodb&logoColor=white" alt="Amazon DynamoDB"/>
+  <img src="https://img.shields.io/badge/Next.js-Frontend-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js"/>
+  <img src="https://img.shields.io/badge/Monaco_Editor-Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white" alt="Monaco Editor"/>
+</div>
 
-First, run the development server:
+## Project Overview
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+A production-grade, real-time collaborative code editor facilitating concurrent document editing with low-latency synchronization. Built with a highly scalable, serverless AWS backend and a Next.js frontend, the system guarantees strong data consistency, secure access control, and seamless multi-user collaboration.
+
+## Cloud Architecture & AWS Services
+
+This project heavily leverages AWS Serverless managed services to provide high availability, horizontal scalability, and real-time data propagation.
+
+### Service Roles
+
+| AWS Service | Core Purpose | Role in Architecture |
+| :--- | :--- | :--- |
+| **AWS AppSync** | Real-time GraphQL API | Acts as the central synchronization hub. Manages WebSocket connections for GraphQL subscriptions, delivering real-time code updates to all connected clients under 200ms latency. |
+| **Amazon DynamoDB** | Persistence Layer | Extremely fast NoSQL key-value store. Maintains primary data including Document states, metadata, and active collaborative Sessions. |
+| **Amazon Cognito** | Authentication & OIDC | Secures the platform through User Pools. Handles user registration, sign-in flows via Hosted UI, and JWT issuance for secure GraphQL access. |
+
+### Real-time Data Flow Strategy
+
+1. **Client Connection**: Users subscribe to document updates via AWS AppSync WebSocket connections.
+2. **Event Mutation**: When a user types in the Monaco Editor, a GraphQL mutation (`updateDocument`) is triggered.
+3. **Storage Update**: AppSync securely writes the changes to Amazon DynamoDB using direct resolvers.
+4. **Broadcast**: AppSync automatically triggers the `onUpdateDocument` subscription, broadcasting the diffs to all connected clients in real time.
+
+## Database Schema (DynamoDB)
+
+The system utilizes an optimized NoSQL schema for fast document retrieval and state management.
+
+| Table Name | Partition Key (PK) | Purpose |
+| :--- | :--- | :--- |
+| **Documents** | `id` (String) | Stores document contents, title, language format, and timestamps. |
+| **DocumentSessions** | `documentId` (String) | Tracks active users in a specific document session for presence features. |
+
+## GraphQL API Design
+
+The AWS AppSync GraphQL API defines strict types to guarantee data integrity between the Next.js frontend and the DynamoDB backend.
+
+| Operation Type | Operations | Description |
+| :--- | :--- | :--- |
+| **Queries** | `getDocument`, `listDocuments` | Fetch single document states or list active user documents for the dashboard. |
+| **Mutations** | `createDocument`, `updateDocument`, `deleteDocument` | Perform CRUD operations to persist code state. |
+| **Subscriptions**| `onUpdateDocument` | Triggered exclusively on mutation to push data to active session subscribers. |
+
+## Authentication Setup
+
+The platform implements OpenID Connect (OIDC) via Amazon Cognito and the `react-oidc-context` library. 
+
+| Layer | Configuration | 
+| :--- | :--- |
+| **OAuth Flow** | Authorization Code Grant |
+| **Scopes** | `openid`, `email`, `phone` |
+| **Access Control** | JWT verification via AppSync Default Authorization |
+
+Users are redirected to the Cognito Hosted UI for sign-in, exchanging the authorization code for ID, Access, and Refresh tokens automatically on the frontend. The `AuthProvider.tsx` maps the OIDC user profile to internal system records.
+
+## Local Development Configuration
+
+To run the Next.js application locally against the deployed AWS backend services:
+
+### 1. Configure Environment Variables
+
+Create a `.env` (or `.env.local`) file in the project directory root containing your AWS resource bindings:
+
+```env
+# AWS Cognito (OIDC Authentication)
+NEXT_PUBLIC_AWS_REGION=ap-south-1
+NEXT_PUBLIC_COGNITO_AUTHORITY=https://cognito-idp.ap-south-1.amazonaws.com/your-pool-id
+NEXT_PUBLIC_COGNITO_CLIENT_ID=your-client-id
+NEXT_PUBLIC_COGNITO_REDIRECT_URI=http://localhost:3000
+NEXT_PUBLIC_COGNITO_DOMAIN=https://your-auth-domain.auth.ap-south-1.amazoncognito.com
+
+# AWS AppSync (Real-time DB / API)
+NEXT_PUBLIC_APPSYNC_GRAPHQL_ENDPOINT=https://your-api-id.appsync-api.ap-south-1.amazonaws.com/graphql
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Start the Development Server
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Navigate your browser to `http://localhost:3000` to interact with the platform.
