@@ -28,15 +28,17 @@ export default function AuthForm() {
           <p>Sign in securely with your AWS Cognito account</p>
         </div>
 
-        <button
-          id="auth-submit-button"
-          className="auth-submit-btn"
-          onClick={() => login()}
-          style={{ marginTop: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}
-        >
-          <LogIn size={18} />
-          Sign in with Cognito
-        </button>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1.5rem' }}>
+          <button
+            id="auth-submit-button"
+            className="auth-submit-btn"
+            onClick={() => login()}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}
+          >
+            <LogIn size={18} />
+            Sign in with Cognito
+          </button>
+        </div>
 
         <p style={{ textAlign: 'center', fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', marginTop: '1rem' }}>
           You will be redirected to the AWS Cognito login page.

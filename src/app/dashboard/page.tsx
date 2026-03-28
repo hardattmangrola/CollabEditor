@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/providers/AuthProvider';
 import { useDocument } from '@/hooks/useDocument';
 import Header from '@/components/Header';
-import { Plus, FileCode, Clock, ArrowRight, Loader2 } from 'lucide-react';
+import { Plus, FileCode, Clock, ArrowRight, Loader2, RefreshCw } from 'lucide-react';
 
 export default function DashboardPage() {
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
@@ -38,17 +38,10 @@ export default function DashboardPage() {
       }
     };
 
-    const interval = setInterval(() => {
-      if (document.visibilityState === 'visible') {
-        fetchDocuments();
-      }
-    }, 4000);
-
     window.addEventListener('focus', refreshOnFocus);
     document.addEventListener('visibilitychange', refreshOnVisible);
 
     return () => {
-      clearInterval(interval);
       window.removeEventListener('focus', refreshOnFocus);
       document.removeEventListener('visibilitychange', refreshOnVisible);
     };
@@ -95,14 +88,24 @@ export default function DashboardPage() {
             <h1>Your Documents</h1>
             <p>Create, edit, and collaborate on code in real-time</p>
           </div>
-          <button
-            id="create-document-button"
-            className="dashboard-create-btn"
-            onClick={() => setShowNewDocModal(true)}
-          >
-            <Plus size={18} />
-            <span>New Document</span>
-          </button>
+          <div style={{ display: 'flex', gap: '12px' }}>
+            <button
+              className="dashboard-create-btn"
+              style={{ background: 'var(--bg-tertiary)', color: 'var(--text-primary)', border: '1px solid var(--border-color)', boxShadow: 'none' }}
+              onClick={() => fetchDocuments()}
+              title="Refresh"
+            >
+              <RefreshCw size={18} className={isLoading ? 'spinner' : ''} />
+            </button>
+            <button
+              id="create-document-button"
+              className="dashboard-create-btn"
+              onClick={() => setShowNewDocModal(true)}
+            >
+              <Plus size={18} />
+              <span>New Document</span>
+            </button>
+          </div>
         </div>
 
         {isLoading ? (

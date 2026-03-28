@@ -4,30 +4,30 @@
 
 /* ---- CSS Custom Properties ---- */
 :root {
-  /* Colors — Deep Navy Dark Theme */
-  --bg-primary: #0a0e1a;
-  --bg-secondary: #111827;
-  --bg-tertiary: #1e293b;
-  --bg-card: rgba(30, 41, 59, 0.6);
-  --bg-card-hover: rgba(30, 41, 59, 0.8);
-  --bg-glass: rgba(15, 23, 42, 0.8);
+  /* Colors — LeetCode Dark Theme */
+  --bg-primary: #1A1A1A;
+  --bg-secondary: #262626;
+  --bg-tertiary: #262626;
+  --bg-card: #262626;
+  --bg-card-hover: #333333;
+  --bg-glass: rgba(26, 26, 26, 0.9);
 
   /* Accent */
-  --accent-primary: #6366f1;
-  --accent-primary-hover: #818cf8;
-  --accent-secondary: #a855f7;
-  --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
-  --accent-glow: 0 0 20px rgba(99, 102, 241, 0.3), 0 0 60px rgba(99, 102, 241, 0.1);
+  --accent-primary: #FFA116;
+  --accent-primary-hover: #FFB545;
+  --accent-secondary: #FFA116;
+  --accent-gradient: linear-gradient(135deg, #FFA116 0%, #FFB545 100%);
+  --accent-glow: 0 0 20px rgba(255, 161, 22, 0.3), 0 0 40px rgba(255, 161, 22, 0.1);
 
   /* Text */
-  --text-primary: #f1f5f9;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --text-accent: #818cf8;
+  --text-primary: #FFFFFF;
+  --text-secondary: #B3B3B3;
+  --text-muted: #888888;
+  --text-accent: #FFA116;
 
   /* Borders */
-  --border-color: rgba(148, 163, 184, 0.1);
-  --border-color-hover: rgba(148, 163, 184, 0.2);
+  --border-color: #3A3A3A;
+  --border-color-hover: #4A4A4A;
 
   /* Status */
   --success: #10b981;
@@ -50,10 +50,10 @@
   --toolbar-height: 48px;
 
   /* Radius */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
 
   /* Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -70,7 +70,7 @@
 
 html, body {
   height: 100%;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: "Menlo", "Monaco", "Courier New", monospace;
   background: var(--bg-primary);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
