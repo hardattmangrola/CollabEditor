@@ -12,6 +12,14 @@
 
 A production-grade, real-time collaborative code editor facilitating concurrent document editing with low-latency synchronization. Built with a highly scalable, serverless AWS backend and a Next.js frontend, the system guarantees strong data consistency, secure access control, and seamless multi-user collaboration.
 
+##  Project Demo
+
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=TRW3RA6j7Pw">
+    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExb3ZlZ3VxNnY4c2Q2dHh6eTh6eXJqM2Z0YzFjZzY5cG5rZzN4d3l5biZlcD12MV9naWZzX3NlYXJjaCZjdD1n/26tn33aiTi1jkl6H6/giphy.gif" width="600"/>
+  </a>
+</p>
+
 ## Cloud Architecture & AWS Services
 
 This project heavily leverages AWS Serverless managed services to provide high availability, horizontal scalability, and real-time data propagation.
