@@ -90,3 +90,5 @@ npm run dev
 ```
 
 Navigate your browser to `http://localhost:3000` to interact with the platform.
+
+Note: The AWS services have been stopped due to billing constraints; however, you can deploy and host the application on your own setup.
