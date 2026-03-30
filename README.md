@@ -16,8 +16,12 @@ A production-grade, real-time collaborative code editor facilitating concurrent 
 
 <p align="center">
   <a href="https://www.youtube.com/watch?v=TRW3RA6j7Pw">
-    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExb3ZlZ3VxNnY4c2Q2dHh6eTh6eXJqM2Z0YzFjZzY5cG5rZzN4d3l5biZlcD12MV9naWZzX3NlYXJjaCZjdD1n/26tn33aiTi1jkl6H6/giphy.gif" width="600"/>
+    <img src="https://github.com/hardattmangrola/CollabEditor/blob/cb27d7ed7176f6b6a1dedddd33d2a0bcd64d5ef2/landing_page.png" alt="Click to watch demo" width="800"/>
   </a>
+</p>
+
+<p align="center">
+  <span style="color:#1f6feb;"><b>Click on the image above to watch the YouTube demo</b></span>
 </p>
 
 ## Cloud Architecture & AWS Services
